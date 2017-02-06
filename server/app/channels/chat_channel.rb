@@ -5,6 +5,11 @@ class ChatChannel < ApplicationCable::Channel
 
   def receive(data)
     ActionCable.server.broadcast stream_name, data.fetch('message')
+
+    # data: {"message"=>{"data"=>"1111111111", "extra"=>12}}
+    logger.info "data: " + data.to_s
+    logger.info "data.message.data: " + data['message']['data'].to_s
+    logger.info "data.message.extra: " + data['message']['extra'].to_s
   end
 
   private
