@@ -3,7 +3,13 @@ class ChatChannel < ApplicationCable::Channel
     stream_from stream_name
   end
 
+	def speak(data)
+		logger.info "SPEAK: data: " + data.to_s
+    ActionCable.server.broadcast stream_name, data.fetch('message')
+	end
+
   def receive(data)
+		logger.info "RECEIVE: data: " + data.to_s
     ActionCable.server.broadcast stream_name, data.fetch('message')
 
     # data: {"message"=>{"data"=>"1111111111", "extra"=>12}}
@@ -19,6 +25,12 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def chat_id
-    params.fetch('data').fetch('chat')
+		d = if params.key? 'data'
+					params['data']
+				else
+					{'user'=> 42, 'chat' => 37}
+				end
+
+		d.fetch('chat')
   end
 end
