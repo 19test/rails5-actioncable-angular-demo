@@ -1,5 +1,9 @@
 require 'action_cable_client'
 
+puts "Usage:\n"\
+		 "1. klavyeden yaz + <ENTER>\n"\
+		 "2. Web arayüzünden/client klasörü mesaj gönder\n\n"
+
 module KeyboardHandler
 	include EM::Protocols::LineText2
 	
@@ -32,3 +36,4 @@ EventMachine.run do
 	# client.perform('speak', { message: 'hello from amc' })
 	EM.open_keyboard(KeyboardHandler){ |kb| kb.client = client }
 end
+
